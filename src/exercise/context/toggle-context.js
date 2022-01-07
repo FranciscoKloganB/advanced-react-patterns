@@ -13,7 +13,7 @@ function ToggleProvider({children}) {
 function useToggle() {
   const context = React.useContext(ToggleContext)
   if (context === undefined) {
-    throw new Error(`useToggle must be used within a ToggleContext`)
+    throw new Error(`useToggle must be used within a <Toggle />`)
   }
   return context
 }

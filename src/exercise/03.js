@@ -23,6 +23,8 @@ function ToggleButton(props) {
   return <Switch on={on} onClick={toggle} {...props} />
 }
 
+// const App = () => <ToggleButton />
+
 function App() {
   return (
     <div>
