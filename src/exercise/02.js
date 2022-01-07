@@ -15,7 +15,7 @@ function Toggle(props) {
   const toggle = () => setOn(!on)
 
   return React.Children.map(props.children, child => {
-    if (allowedTypes.includes(child.type) || typeof child.type === 'string') {
+    if (allowedTypes.includes(child.type) && typeof child.type !== 'string') {
       return React.cloneElement(child, {on, toggle})
     }
   })
