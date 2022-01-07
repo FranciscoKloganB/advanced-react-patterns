@@ -7,7 +7,6 @@ import {dequal} from 'dequal'
 
 import {UserProvider, useUser, updateUser} from './context/user-context.js'
 
-
 // src/screens/user-profile.js
 // import {UserProvider, useUser} from './context/user-context'
 function UserSettings() {
@@ -26,7 +25,9 @@ function UserSettings() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    updateUser(userDispatch, user, formState)
+    updateUser(userDispatch, user, formState).catch(e =>
+      console.log('Error while dispatching user update', e),
+    )
   }
 
   return (
@@ -79,17 +80,8 @@ function UserSettings() {
         >
           Reset
         </button>
-        <button
-          type="submit"
-          disabled={(!isChanged && !isRejected) || isPending}
-        >
-          {isPending
-            ? '...'
-            : isRejected
-            ? '✖ Try again'
-            : isChanged
-            ? 'Submit'
-            : '✔'}
+        <button type="submit" disabled={(!isChanged && !isRejected) || isPending}>
+          {isPending ? '...' : isRejected ? '✖ Try again' : isChanged ? 'Submit' : '✔'}
         </button>
         {isRejected ? <pre style={{color: 'red'}}>{error.message}</pre> : null}
       </div>

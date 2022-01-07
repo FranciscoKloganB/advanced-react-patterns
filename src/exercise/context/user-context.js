@@ -69,10 +69,18 @@ function useUser() {
 
 function updateUser(dispatch, user, updates) {
   dispatch({type: 'start update', updates})
-  userClient.updateUser(user, updates).then(
-    updatedUser => dispatch({type: 'finish update', updatedUser}),
-    error => dispatch({type: 'fail update', error}),
-  )
+  return userClient
+    .updateUser(user, updates)
+    .then(
+      updatedUser => {
+        dispatch({type: 'finish update', updatedUser})
+        return updatedUser
+      },
+      error => {
+        dispatch({type: 'fail update', error})
+        throw error
+      },
+    )
 }
 
 export {UserProvider, useUser, updateUser}
