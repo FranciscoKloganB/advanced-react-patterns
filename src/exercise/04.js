@@ -6,9 +6,7 @@ import {Switch} from '../switch'
 
 function callAllFunctions(...fns) {
   return (...args) => {
-    fns.forEach(fn => {
-      fn && fn(...args)
-    })
+    fns.forEach(fn => fn?.(...args))
   }
 }
 
