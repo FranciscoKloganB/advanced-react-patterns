@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react'
 
 export default function useSafeControlledProp({
@@ -6,6 +7,10 @@ export default function useSafeControlledProp({
   readOnly,
   context = {componentName: '', propName: ''},
 }) {
+  if (process.env.NODE_ENV === 'production') {
+    return
+  }
+  
   const controlled = control != null
   const hasOnChange = !!onChange
 
