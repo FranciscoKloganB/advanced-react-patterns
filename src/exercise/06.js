@@ -38,11 +38,10 @@ function useToggle({
   const {current: initialState} = React.useRef({on: initialOn})
   const [state, dispatch] = React.useReducer(reducer, initialState)
 
-  const onIsControlled = controlledOn != null
+  const onIsControlled = controlledOn != null  
   const on = onIsControlled ? controlledOn : state.on
-
+ 
   const hasOnChange = !!onChange
-
   React.useEffect(() => {
     if (onIsControlled && !hasOnChange && !readOnly) {
       console.warn(
@@ -50,6 +49,15 @@ function useToggle({
       )
     }
   }, [onIsControlled, hasOnChange, readOnly])
+
+  const {current: onWasControlled } = React.useRef(onIsControlled)
+  React.useEffect(() => {
+    if (onWasControlled !== onIsControlled) {
+      console.warn(
+        'Component using `useToggle` switch between Controlled and Uncontrolled state or vice-versa during its Lifetime. This should not happen',
+      )
+    }
+  }, [onIsControlled, onWasControlled])
 
   function dispatchWithOnChange(action) {
     if (!onIsControlled) {
