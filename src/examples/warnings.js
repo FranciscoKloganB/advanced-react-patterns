@@ -9,7 +9,7 @@ function App() {
     <div>
       <div>
         <label>
-          Read only (missing onChange): <input value="yo" />
+          Read only (missing onChange): <input value="yo" readOnly={true}/>
         </label>
       </div>
       <div>
