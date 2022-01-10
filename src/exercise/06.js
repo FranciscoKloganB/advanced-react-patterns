@@ -2,6 +2,8 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react'
+import useSafeControlledProp from './hooks/useSafeControlledProp'
+ 
 import {Switch} from '../switch'
 
 const callAll =
@@ -41,23 +43,7 @@ function useToggle({
   const onIsControlled = controlledOn != null  
   const on = onIsControlled ? controlledOn : state.on
  
-  const hasOnChange = !!onChange
-  React.useEffect(() => {
-    if (onIsControlled && !hasOnChange && !readOnly) {
-      console.warn(
-        'An `on` change was provided to `useToggle` without an `onChange` handler. This will render a read-only toggle. If you want it to be mutable, use `initialOn`. Otherwise, set either `onChange` or `readOnly`',
-      )
-    }
-  }, [onIsControlled, hasOnChange, readOnly])
-
-  const {current: onWasControlled } = React.useRef(onIsControlled)
-  React.useEffect(() => {
-    if (onWasControlled !== onIsControlled) {
-      console.warn(
-        'Component using `useToggle` switch between Controlled and Uncontrolled state or vice-versa during its Lifetime. This should not happen',
-      )
-    }
-  }, [onIsControlled, onWasControlled])
+  useSafeControlledProp({control: controlledOn, onChange, readOnly})
 
   function dispatchWithOnChange(action) {
     if (!onIsControlled) {
