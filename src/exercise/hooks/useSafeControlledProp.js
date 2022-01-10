@@ -5,7 +5,7 @@ export default function useSafeControlledProp({
   control,
   onChange,
   readOnly,
-  context = {componentName: '', propName: ''},
+  debugContext = {componentName: '', propName: ''},
 }) {
   if (process.env.NODE_ENV === 'production') {
     return
@@ -18,11 +18,11 @@ export default function useSafeControlledProp({
     if (controlled && !hasOnChange && !readOnly) {
       console.warn(
         `A previously controlled component exists without an 'onChange' handler.
-         This will render a read-only toggle. Set either 'onChange' or 'readOnly'`,
-        context,
+         This will render a read-only component. Set either 'onChange' or 'readOnly'`,
+        debugContext,
       )
     }
-  }, [context, controlled, hasOnChange, readOnly])
+  }, [debugContext, controlled, hasOnChange, readOnly])
 
   const {current: wasControlled} = React.useRef(controlled)
   React.useEffect(() => {
@@ -30,8 +30,8 @@ export default function useSafeControlledProp({
       console.warn(
         `Component switched between Controlled and Uncontrolled state or vice-versa
          during its Lifetime. This should not happen`,
-        context,
+        debugContext,
       )
     }
-  }, [context, controlled, wasControlled])
+  }, [debugContext, controlled, wasControlled])
 }
